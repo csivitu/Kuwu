@@ -31,4 +31,4 @@ async def on_command_error(ctx, error):
 
 client.run(os.environ['TOKEN'])
 
-#https://discord.com/oauth2/authorize?client_id=123456789012345678&scope=bot
+#https://discord.com/oauth2/authorize?client_id=723828224307757178&scope=bot
