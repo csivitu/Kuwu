@@ -28,6 +28,8 @@ async def on_command_error(ctx, error):
         await ctx.send('Command does not exist.')
         return
 
+    if isinstance(error, commands.CommandInvokeError):
+        await ctx.send('Bot does not have permissions to kick/ban people. Please grant permissions')
 
 client.run(os.environ['TOKEN'])
 
