@@ -31,6 +31,11 @@ async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandInvokeError):
         await ctx.send('Bot does not have permissions to kick/ban people. Please grant permissions')
 
+async def firstBlood(userName, challengeName):
+    channel = client.get_channel(os.environ['FIRST_BLOOD_CHANNEL'])
+    await channel.send(f'{userName} got first blood in challenge: {challengeName}')
+
 client.run(os.environ['TOKEN'])
+
 
 #https://discord.com/oauth2/authorize?client_id=723828224307757178&scope=bot
