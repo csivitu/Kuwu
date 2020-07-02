@@ -4,6 +4,7 @@ import os
 from dotenv import load_dotenv
 import threading
 import socket
+import asyncio
 load_dotenv()
 
 
@@ -31,7 +32,7 @@ def handleClient(conn, addr):
 
 def start():
     server.listen()
-    print("Server is listening")
+    print(f'Server is listening on port {PORT}')
     while True:
         conn, addr = server.accept()
         thread  = threading.Thread(target=handleClient, args= (conn, addr))
@@ -53,6 +54,14 @@ for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):
         client.load_extension(f'cogs.{filename[:-3]}')
 
+async def challengeStatus():
+    await client.wait_until_ready()
+
+    while not client.is_closed:
+        statusChannel = client.get_channel(os.getenv('CHALLENGE_STATUS_CHANNEL'))
+        await statusChannel.send('Status to be sent here!') #send challenge data here!
+        asyncio.sleep(1800) #task will repeat every half an hour!
+
 @client.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
@@ -73,6 +82,11 @@ async def on_command_error(ctx, error):
 async def firstBlood(userName, challengeName):
     channel = client.get_channel(os.getenv('FIRST_BLOOD_CHANNEL'))
     await channel.send(f'{userName} got first blood in challenge: {challengeName}')
+
+
+if (os.getenv('MODE') == 'PRODUCTION'):
+    client.loop.create_task(challengeStatus())
+
 
 client.run(os.getenv('TOKEN'))
 
