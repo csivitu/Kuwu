@@ -1,11 +1,13 @@
 import discord
 from discord.ext import commands
 import os
+from dotenv import load_dotenv
 import threading
 import socket
+load_dotenv()
 
 
-PORT = 3000
+PORT = int(os.getenv('PORT'))
 SERVER  = socket.gethostbyname(socket.gethostname())
 print(SERVER)
 server  = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -69,9 +71,9 @@ async def on_command_error(ctx, error):
         await ctx.send('Bot does not have permissions to kick/ban people. Please grant permissions')
 
 async def firstBlood(userName, challengeName):
-    channel = client.get_channel(os.environ['FIRST_BLOOD_CHANNEL'])
+    channel = client.get_channel(os.getenv('FIRST_BLOOD_CHANNEL'))
     await channel.send(f'{userName} got first blood in challenge: {challengeName}')
 
-client.run(os.environ['TOKEN'])
+client.run(os.getenv('TOKEN'))
 
 #https://discord.com/oauth2/authorize?client_id=723828224307757178&scope=bot
