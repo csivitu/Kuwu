@@ -9,7 +9,7 @@ load_dotenv()
 
 
 PORT = int(os.getenv('PORT'))
-SERVER  = socket.gethostbyname(socket.gethostname())
+SERVER  = socket.gethostbyname(os.getenv('HOST'))
 print(SERVER)
 server  = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 ADDR  = (SERVER, PORT)
