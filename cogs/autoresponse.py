@@ -11,7 +11,7 @@ class autoresponse(commands.Cog):
         message.content = message.content.lower().replace(' ','')
         if 'csictf' in message.content:
             await channel.purge(limit=1)
-            await channel.send(f'@{message.author.name} don\'t post flags here!')
+            await channel.send(f'@{message.author.name}#{message.author.discriminator} don\'t post flags here!')
 
 
 def setup(client):
