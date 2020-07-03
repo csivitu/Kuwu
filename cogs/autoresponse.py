@@ -9,9 +9,9 @@ class autoresponse(commands.Cog):
     async def on_message(self, message):
         channel = self.client.get_channel(message.channel.id)
         message.content = message.content.lower().replace(' ','')
-        if 'csictf' in message.content:
+        if 'csictf{' in message.content:
             await channel.purge(limit=1)
-            await channel.send(f'@{message.author.name}#{message.author.discriminator} don\'t post flags here!')
+            await channel.send(f'<@!{message.author.id}> don\'t post flags here!')
 
 
 def setup(client):
