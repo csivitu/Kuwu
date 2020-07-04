@@ -1,44 +1,26 @@
 import discord
 from discord.ext import commands
-import os
+import os, asyncio
 from dotenv import load_dotenv
 import threading
-import socket
-import asyncio
+from flask import Flask, request
 load_dotenv()
 
+app = Flask(__name__)
 
-PORT = int(os.getenv('PORT'))
-SERVER  = socket.gethostbyname(os.getenv('HOST'))
-print(SERVER)
-server  = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-ADDR  = (SERVER, PORT)
-server.bind(ADDR)
+@app.route('/', methods=['POST', 'GET'])
+def get_data():
+    if request.method == 'POST':
+        print(request.data)
+        return "Data recieved!"
+    else:
+        return "Hello Test!"
 
-def handleClient(conn, addr):
-    print(f'[NEW CONNECTION] {addr} connected')
+def run_server():
+    if __name__ == '__main__':
+        app.run(host=os.getenv('HOST'),port=os.getenv('PORT'))
 
-    connected = True
-    while connected:
-        msg_lenght = conn.recv(64).decode('utf-8')
-        if msg_lenght:
-            msg_lenght = int(msg_lenght)
-            msg = conn.recv(msg_lenght).decode('utf-8')
-            if(msg == '!DISCONNECT'):
-                connected = False
-            print(f'[{addr}]: {msg}')
-    
-    conn.close()
-
-def start():
-    server.listen()
-    print(f'Server is listening on port {PORT}')
-    while True:
-        conn, addr = server.accept()
-        thread  = threading.Thread(target=handleClient, args= (conn, addr))
-        thread.start()
-
-t1  = threading.Thread(target=start)
+t1  = threading.Thread(target=run_server)
 t1.start()
 
 print('program continues!')
