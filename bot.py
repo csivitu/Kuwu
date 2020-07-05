@@ -11,10 +11,9 @@ app = Flask(__name__)
 @app.route('/', methods=['POST', 'GET'])
 def get_data():
     if request.method == 'POST':
-        if(request.data):
-            print(request.data)
-            return "Data recieved!"
-        return "Data not recieved or data format not correct"
+        req_data = request.get_json()
+        print(req_data)
+        return "data recieved!"
     return "Hello Test!"
 
 def run_server():
