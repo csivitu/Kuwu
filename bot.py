@@ -9,11 +9,18 @@ load_dotenv()
 
 app = Flask(__name__)
 
+data = []
+challenges={}
 @app.route('/', methods=['POST', 'GET'])
 def get_data():
     if request.method == 'POST':
 #        req_data = request.get_json()
-        print('\n\n'+str(request.form['server']), end='\n\n')
+        data = str(request.form['server']).split(',')
+        l = len(data)
+        for i in range(l):
+            challenges[data[i]]=data[i+1:i+10]
+            i+=11
+        print(challenges)
         return "data recieved!"
     return "Hello Test!"
 
