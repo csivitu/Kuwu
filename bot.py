@@ -11,10 +11,11 @@ app = Flask(__name__)
 @app.route('/', methods=['POST', 'GET'])
 def get_data():
     if request.method == 'POST':
-        print(request.data)
-        return "Data recieved!"
-    else:
-        return "Hello Test!"
+        if(request.data):
+            print(request.data)
+            return "Data recieved!"
+        return "Data not recieved or data format not correct"
+    return "Hello Test!"
 
 def run_server():
     if __name__ == '__main__':
