@@ -22,6 +22,7 @@ def get_data():
             challenges[data[i].strip()]=data[i+1:i+11]
             i+=11
         print(challenges)
+        print('\n\n\n\n')
         return "data recieved!"
     return "Hello Test!"
 
