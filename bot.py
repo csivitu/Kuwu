@@ -17,8 +17,9 @@ def get_data():
 #        req_data = request.get_json()
         data = str(request.form['server']).split(',')
         l = len(data)
-        for i in range(l):
-            challenges[data[i]]=data[i+1:i+10]
+        i = 0
+        while (i<l):
+            challenges[data[i].strip()]=data[i+1:i+11]
             i+=11
         print(challenges)
         return "data recieved!"
