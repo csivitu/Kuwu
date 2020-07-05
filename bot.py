@@ -1,3 +1,4 @@
+#import json
 import discord
 from discord.ext import commands
 import os, asyncio
@@ -11,8 +12,8 @@ app = Flask(__name__)
 @app.route('/', methods=['POST', 'GET'])
 def get_data():
     if request.method == 'POST':
-        req_data = request.get_json()
-        print(req_data)
+#        req_data = request.get_json()
+        print('\n\n'+str(request.form['server']), end='\n\n')
         return "data recieved!"
     return "Hello Test!"
 
