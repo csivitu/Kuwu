@@ -50,7 +50,7 @@ async def challengeStatus():
     await client.wait_until_ready()
 
     while not client.is_closed:
-        statusChannel = client.get_channel(os.getenv('CHALLENGE_STATUS_CHANNEL'))
+        statusChannel = client.get_channel(int(os.getenv('CHALLENGE_STATUS_CHANNEL')))
         await statusChannel.send('Status to be sent here!') #send challenge data here!
         asyncio.sleep(1800) #task will repeat every half an hour!
 
@@ -75,7 +75,7 @@ async def on_command_error(ctx, error):
         await ctx.send('Bot does not have permissions to perform the task. Please give permission')
 
 async def firstBlood(userName, challengeName):
-    channel = client.get_channel(os.getenv('FIRST_BLOOD_CHANNEL'))
+    channel = client.get_channel(int(os.getenv('FIRST_BLOOD_CHANNEL')))
     await channel.send(f'{userName} got first blood in challenge: {challengeName}')
 
 
