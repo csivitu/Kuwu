@@ -13,6 +13,10 @@ def monitor_docker():
 
 
 while True:
- jdata={'server': ','.join(monitor_docker())}
- r = requests.post(URL, data=jdata)
- print(r.status_code, r.reason)
+    try:
+        jdata = {'server':','.join(monitor_docker())}
+        r = requests.post(URL,data=jdata)
+        print(r.status_code, r.reason)
+    except:
+        print('Host refused HTTP POST request')
+        
