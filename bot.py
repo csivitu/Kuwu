@@ -3,7 +3,7 @@ import discord
 from discord.ext import commands
 import os, asyncio
 from dotenv import load_dotenv
-import threading
+import threading, time
 from flask import Flask, request
 load_dotenv()
 
@@ -11,10 +11,13 @@ app = Flask(__name__)
 
 data = []
 challenges={}
+
 @app.route('/', methods=['POST', 'GET'])
 def get_data():
     if request.method == 'POST':
-#        req_data = request.get_json()
+        challenges={}
+        challenges['client_addr']=request.environ['REMOTE_ADDR']
+#       req_data = request.get_json()
         data = str(request.form['server']).split(',')
         l = len(data)
         i = 0
@@ -48,11 +51,30 @@ for filename in os.listdir('./cogs'):
 
 async def challengeStatus():
     await client.wait_until_ready()
+    if (challenges == {}):
+        return
 
-    while not client.is_closed:
-        statusChannel = client.get_channel(int(os.getenv('CHALLENGE_STATUS_CHANNEL')))
-        await statusChannel.send('Status to be sent here!') #send challenge data here!
-        asyncio.sleep(1800) #task will repeat every half an hour!
+    statusChannel = client.get_channel(int(os.getenv('CHALLENGE_STATUS_CHANNEL')))
+    w = ''
+    table = [['Name', 'CPU %','MEM USAGE']]
+    for i in dict.keys(challenges):
+        if (i == 'client_addr'):
+            continue
+        iTable = []
+        for j in range(4):
+            iTable.append(challenges[i][j])
+        table.append(iTable)
+    
+    for row in table:
+        w += "{: >20} {: >20} {: >20}".format(*row)+'\n'
+
+    clientIp = challenges['client_addr']
+    w += f'\n\nData recieved from I.P {clientIp}'
+
+    while True:
+        await statusChannel.send(w) #send challenge data here!
+        print(w)
+        time.sleep(1800) #updates will be sent every half an hour
 
 @client.event
 async def on_command_error(ctx, error):
@@ -78,9 +100,14 @@ async def firstBlood(userName, challengeName):
     channel = client.get_channel(int(os.getenv('FIRST_BLOOD_CHANNEL')))
     await channel.send(f'{userName} got first blood in challenge: {challengeName}')
 
+def creat_bg_task():
+    print('task created!')
+    client.loop.create_task(challengeStatus())
 
 if (os.getenv('MODE') == 'PRODUCTION'):
-    client.loop.create_task(challengeStatus())
+    t2 = threading.Thread(target=creat_bg_task)
+    t2.start()
+    
 
 
 client.run(os.getenv('TOKEN'))
