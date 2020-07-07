@@ -86,11 +86,14 @@ async def monitorChallenges():
             continue
 
         for i in dict.keys(monitor_data):
-            if (float(monitor_data[i][1][0:4]) > 50.00):
+            if (i == 'client_addr'):
+                continue
+
+            if (float(monitor_data[i][1][0:-1]) > 50.00):
                 await channel.send(f'{monitor_data[i][0]} has a cpu usage of {monitor_data[i][1]}\nPlease check.\nTag: {i}')
 
-            if (float(monitor_data[i][4][0:4]) > 60.00):
-                await channel.send(f'{monitor_data[i][0]} has a memory usage of {monitor_data[i][1]}\nPlease check.\nTag: {i}')
+            if (float(monitor_data[i][4][0:-1]) > 60.00):
+                await channel.send(f'{monitor_data[i][0]} has a memory usage of {monitor_data[i][4]}\nPlease check.\nTag: {i}')
         time.sleep(30)
             
 
