@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 data = []
 challenges={}
-
+monitor_data = {}
 @app.route('/', methods=['POST', 'GET'])
 def get_data():
     if request.method == 'POST':
@@ -24,8 +24,8 @@ def get_data():
         while (i<l):
             challenges[data[i].strip()]=data[i+1:i+11]
             i+=11
-        print(challenges)
-        print('\n\n\n\n')
+        monitor_data = challenges
+        print('data has been recieved!')
         return "data recieved!"
     return "Hello Test!"
 
@@ -51,30 +51,49 @@ for filename in os.listdir('./cogs'):
 
 async def challengeStatus():
     await client.wait_until_ready()
-    if (challenges == {}):
+    if (monitor_data == {}):
         return
 
     statusChannel = client.get_channel(int(os.getenv('CHALLENGE_STATUS_CHANNEL')))
     w = ''
-    table = [['Name', 'CPU %','MEM USAGE']]
-    for i in dict.keys(challenges):
+    table = [['TAG','Name', 'CPU %','MEM USAGE', 'MEM ALLOWED', 'MEM%']]
+    for i in dict.keys(monitor_data):
         if (i == 'client_addr'):
             continue
-        iTable = []
-        for j in range(4):
-            iTable.append(challenges[i][j])
-        table.append(iTable)
+
+        table.append([i,monitor_data[i][0], monitor_data[i][1], monitor_data[i][2], monitor_data[i][3], monitor_data[i][4]])
     
     for row in table:
-        w += "{: >20} {: >20} {: >20}".format(*row)+'\n'
+        w += "{: >20} {: >20} {: >20} {: >20} {: >20} {: >20}".format(*row)+'\n'
 
-    clientIp = challenges['client_addr']
+    clientIp = monitor_data['client_addr']
     w += f'\n\nData recieved from I.P {clientIp}'
 
     while True:
         await statusChannel.send(w) #send challenge data here!
         print(w)
         time.sleep(60) #updates will be sent every minute
+
+async def monitorChallenges():
+    await client.wait_until_ready()
+    
+    if (monitor_data == {}):
+        return
+    
+    channel = client.get_channel(int(os.getenv('CHALLENGE_STATUS_CHANNEL')))
+    while True:
+        if (monitor_data == {}):
+            continue
+
+        for i in dict.keys(monitor_data):
+            if (float(monitor_data[i][1][0:4]) > 50.00):
+                await channel.send(f'{monitor_data[i][0]} has a cpu usage of {monitor_data[i][1]}\nPlease check.\nTag: {i}')
+
+            if (float(monitor_data[i][4][0:4]) > 60.00):
+                await channel.send(f'{monitor_data[i][0]} has a memory usage of {monitor_data[i][1]}\nPlease check.\nTag: {i}')
+        time.sleep(30)
+            
+
 
 @client.event
 async def on_command_error(ctx, error):
@@ -104,9 +123,16 @@ def creat_bg_task():
     print('task created!')
     client.loop.create_task(challengeStatus())
 
+def creat_monitor():
+    print('monitoring started')
+    client.loop.create_task(monitorChallenges())
+
 if (os.getenv('MODE') == 'PRODUCTION'):
     t2 = threading.Thread(target=creat_bg_task)
     t2.start()
+
+    t3 = threading.Thread(target=creat_monitor)
+    t3.start()
     
 
 
