@@ -74,7 +74,7 @@ async def challengeStatus():
     while True:
         await statusChannel.send(w) #send challenge data here!
         print(w)
-        time.sleep(1800) #updates will be sent every half an hour
+        time.sleep(60) #updates will be sent every minute
 
 @client.event
 async def on_command_error(ctx, error):
