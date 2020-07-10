@@ -89,7 +89,7 @@ async def challengeStatus():
     w += f'\n\nData recieved from I.P {clientIp}'
 
     await statusChannel.send(w) #send challenge data here!
-    print(w)
+    print('Data sent!')
 
 
 @tasks.loop(seconds = 15)
@@ -118,6 +118,37 @@ async def monitorChallenges():
 @tasks.loop(seconds = 10)
 async def print_something():
     print("hello")
+
+@client.command(aliases=['Status', 'stats'])
+async def status(ctx):
+
+    if (monitor_data == {}):
+        await ctx.send('There is no data to be sent!')
+        return
+
+    w = ''
+    table = [['TAGS','CONTAINER ID','Name', 'CPU %', 'MEM%']]
+
+    if monitor_data == {}:
+        return
+
+    
+    for i in dict.keys(monitor_data):
+        
+        if (i == 'client_addr'):
+            continue
+        
+        print(tags[tags.index(i)-1])
+        table.append([tags[tags.index(i)-1], i, monitor_data[i][0], monitor_data[i][1], monitor_data[i][2]])
+    
+    for row in table:
+        w += "{: >20} {: >20} {: >20} {: >20} {: >20}".format(*row)+'\n'
+
+    clientIp = monitor_data['client_addr']
+    w += f'\n\nData recieved from I.P {clientIp}'
+
+    await ctx.send(w)
+    print('Data sent')
 
 @client.event
 async def on_command_error(ctx, error):
