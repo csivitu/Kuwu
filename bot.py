@@ -9,25 +9,31 @@ load_dotenv()
 
 app = Flask(__name__)
 
-data = []
-challenges={}
+global monitor_data
 monitor_data = {}
+
+global tags
+tags = []
 
 
 @app.route('/', methods=['POST', 'GET'])
 def get_data():
     if request.method == 'POST':
-        challenges={}
-        challenges['client_addr']=request.environ['REMOTE_ADDR']
+        c={}
+        c['client_addr']=request.environ['REMOTE_ADDR']
 #       req_data = request.get_json()
-        data = str(request.form['server']).split(',')
+        data = str(request.form['stats']).split(',')
         l = len(data)
-        i = 0
+        i = 4
         while (i<l):
-            challenges[data[i].strip()]=data[i+1:i+11]
-            i+=11
-        monitor_data = challenges
-        print(monitor_data)
+            c[data[i].strip()]=data[i+1:i+4]
+            i+=4
+        global monitor_data
+        monitor_data = c
+        global tags
+        t = str(request.form['ids']).split(',')
+        for j in t:
+            tags.append(j.strip())
         print('data has been recieved!')
         return "data recieved!"
     return "Hello Test!"
@@ -60,19 +66,24 @@ async def challengeStatus():
     print('testing')
     statusChannel = client.get_channel(int(os.getenv('CHALLENGE_STATUS_CHANNEL')))
     w = ''
-    table = [['TAG','Name', 'CPU %','MEM USAGE', 'MEM ALLOWED', 'MEM%']]
+    table = [['TAGS','CONTAINER ID','Name', 'CPU %', 'MEM%']]
 
     if monitor_data == {}:
         return
 
+    
     for i in dict.keys(monitor_data):
         
         if (i == 'client_addr'):
             continue
-        table.append([i,monitor_data[i][0], monitor_data[i][1], monitor_data[i][2], monitor_data[i][3], monitor_data[i][4]])
+        
+        print(tags[tags.index(i)-1])
+        table.append([tags[tags.index(i)-1], i, monitor_data[i][0], monitor_data[i][1], monitor_data[i][2]])
     
     for row in table:
-        w += "{: >20} {: >20} {: >20} {: >20} {: >20} {: >20}".format(*row)+'\n'
+        w += "{: >20} {: >20} {: >20} {: >20} {: >20}".format(*row)+'\n'
+
+    print('hello world!')
 
     clientIp = monitor_data['client_addr']
     w += f'\n\nData recieved from I.P {clientIp}'
@@ -84,24 +95,23 @@ async def challengeStatus():
 @tasks.loop(seconds = 15)
 async def monitorChallenges():
     
-    print(monitor_data)
     if(monitor_data == {}):
         return
     
-    print('not returned')
 
     channel = client.get_channel(int(os.getenv('CHALLENGE_STATUS_CHANNEL')))
 
+    print('not returned')
 
     for i in dict.keys(monitor_data):
-        if (i == 'client_addr'):
+        if (i == 'client_addr' or  i == 'CONTAINER'):
             continue
 
-        if (float(monitor_data[i][1][0:-1]) > 50.00):
-            await channel.send(f'{monitor_data[i][0]} has a cpu usage of {monitor_data[i][1]}\nPlease check.\nTag: {i}')
+        if(float(monitor_data[i][1][0:-1]) > 50.00):
+            await channel.send(f'{monitor_data[i][0]} has a CPU usage of {monitor_data[i][1]}.\n Please check. \nID: {i}')
 
-        if (float(monitor_data[i][4][0:-1]) > 60.00):
-            await channel.send(f'{monitor_data[i][0]} has a memory usage of {monitor_data[i][4]}\nPlease check.\nTag: {i}')
+        if (float(monitor_data[i][2][0:-1]) > 60.00):
+            await channel.send(f'{monitor_data[i][0]} has a memory usage of {monitor_data[i][4]}\nPlease check.\nID: {i}')
 
             
 
