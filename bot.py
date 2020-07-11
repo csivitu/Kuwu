@@ -19,6 +19,8 @@ global challenges
 challenges = {'pwn-intended-0x1':30001, 'pwn-intended-0x2':30007, 'pwn-intended-0x3':30013, 'Global_Warming':30023, 'Cascade':30203, 'wrong_ch':60000,
               'CCC':30215, 'File_Library':30222, 'Mr Rami':30231, 'Oreo':30243, 'The_Confused_Deputy':30256, 'Warm_Up':30272, 'Secure_Portal':30281 }
 
+global connectionData
+connectionData = {}
 
 @app.route('/', methods=['POST', 'GET'])
 def get_data():
@@ -120,8 +122,10 @@ async def monitorChallenges():
 
             
 
-@tasks.loop(seconds = 60)
+@tasks.loop(seconds = 120)
 async def checkChallenges():
+    global connectionData
+    connectionData={}
     server = socket.gethostbyname('ctf-chall-dev.csivit.com')
     ch = client.get_channel(int(os.getenv('CHALLENGE_STATUS_CHANNEL')))
     embed = discord.Embed(title="Challenge Status")
@@ -136,11 +140,26 @@ async def checkChallenges():
             t = t[0:t.index('.')+4]
             data = f'```css\nConnected successfully to #{i} in {t} seconds```'
             embed.add_field(name=i,value=data)
+            connectionData[i]=data
         except:
             data = f"```elixir\nUnable to connect to : ${i}```"
             embed.add_field(name=i, value=data)
+            connectionData[i]=data
+
     await ch.send(embed=embed)
     print('sent')
+
+@client.command(aliases=['Challenges', 'challenges', 'challenge'])
+async def challengeStats(ctx):
+    if(not(len(connectionData) == len(challenges))):
+        await ctx.send('Data is being collected, please wait for a few seconds!')
+        return
+    
+    embed = discord.Embed(title='Challenge Status')
+    for i in connectionData:
+        embed.add_field(name=i, value=connectionData[i])
+    
+    await ctx.send(embed=embed)
 
 
 @client.command(aliases=['Status', 'stats'])
