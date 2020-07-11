@@ -16,8 +16,8 @@ global tags
 tags = []
 
 global challenges
-challenges = {'pwn-intended-0x1':30001, 'pwn-intended-0x2':30007, 'pwn-intended-0x3':30013, 'Global_Warming':30023, 'Cascade':30203, 'wrong_ch':60000,
-              'CCC':30215, 'File_Library':30222, 'Mr Rami':30231, 'Oreo':30243, 'The_Confused_Deputy':30256, 'Warm_Up':30272, 'Secure_Portal':30281 }
+challenges = {'pwn-intended-0x1':30001, 'pwn-intended-0x2':30007, 'pwn-intended-0x3':30013, 'Global Warming':30023, 'Cascade':30203, 'wrong-ch':60000,
+              'CCC':30215, 'File Library':30222, 'Mr Rami':30231, 'Oreo':30243, 'The Confused Deputy':30256, 'Warm Up':30272, 'Secure Portal':30281 }
 
 global connectionData
 connectionData = {}
@@ -138,11 +138,11 @@ async def checkChallenges():
             t2 = time.time()
             t = str(t2-t1)
             t = t[0:t.index('.')+4]
-            data = f'```css\nConnected successfully to #{i} in {t} seconds```'
+            data = f'```css\nTime: {t}s```'
             embed.add_field(name=i,value=data)
             connectionData[i]=data
         except:
-            data = f"```elixir\nUnable to connect to : ${i}```"
+            data = f"```diff\n-Unable to connect.```"
             embed.add_field(name=i, value=data)
             connectionData[i]=data
 
