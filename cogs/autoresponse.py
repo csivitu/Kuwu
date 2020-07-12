@@ -10,10 +10,17 @@ class autoresponse(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
+
         channel = self.client.get_channel(message.channel.id)
         message.content = message.content.lower().replace(' ','')
-        if message.content == os.getenv('FLAG'):
+
+        if not('DMChannel' in str(type(message.channel))):
+            if '.flag' in message.content:
+                await channel.purge(limit=1)
+                await channel.send('Ssssshhhh, not here. DM me maybe ;)')
+        else:
             return
+            
 
         if 'csictf{' in message.content:
             await channel.purge(limit=1)
