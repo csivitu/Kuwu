@@ -193,6 +193,14 @@ async def status(ctx):
     await ctx.send(w)
     print('Data sent')
 
+@client.command(aliases=['Flag'])
+async def flag(ctx):
+    if ctx.channel.type is discord.ChannelType.private:
+        await ctx.send(os.getenv('FLAG'))
+    else:
+        await ctx.channel.purge(limit=1)
+        await ctx.send('Sssssshhh, not here. DM me maybe ;)')
+
 @client.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
@@ -208,7 +216,7 @@ async def on_command_error(ctx, error):
         return
 
     if isinstance(error, commands.CommandInvokeError):
-        await ctx.send('Bot does not have permissions to kick/ban people. Please grant permissions')
+        await ctx.send('Bot does not have permissions to perform the task. Please grant permissions')
     
     if isinstance(error, commands.MissingPermissions):
         await ctx.send('Bot does not have permissions to perform the task. Please give permission')
