@@ -161,6 +161,7 @@ async def checkChallenges():
     print('sent')
 
 @client.command(aliases=['Challenges', 'challenges', 'challenge'])
+@commands.has_permissions(kick_members=True)
 async def challengeStats(ctx):
     if(not(len(connectionData) == len(challenges))):
         await ctx.send('Data is being collected, please wait for a few seconds!')
