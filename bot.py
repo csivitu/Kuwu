@@ -4,6 +4,7 @@ from discord.ext import commands, tasks
 import os, socket
 from dotenv import load_dotenv
 import threading, time
+from asgiref.sync import async_to_sync
 from flask import Flask, request
 load_dotenv()
 
@@ -16,7 +17,7 @@ global tags
 tags = []
 
 global challenges
-challenges = {'pwn-intended-0x1':30001, 'pwn-intended-0x2':30007, 'pwn-intended-0x3':30013, 'Global Warming':30023, 'Cascade':30203, 'wrong-ch':60000,
+challenges = {'pwn-intended-0x1':30001, 'pwn-intended-0x2':30007, 'pwn-intended-0x3':30013, 'Global Warming':30023, 'Cascade':30203,
               'CCC':30215, 'File Library':30222, 'Mr Rami':30231, 'Oreo':30243, 'The Confused Deputy':30256, 'Warm Up':30272, 'Secure Portal':30281 }
 
 global connectionData
@@ -44,12 +45,22 @@ def get_data():
         return "data recieved!"
     return "Hello Test!"
 
+@app.route('/firstBlood', methods=['POST','GET'])
+def get_first_blood():
+    if request.method == 'POST':
+        name = str(request.form['playerName'])
+        challengeName = str(request.form['challengeName'])
+        res = firstBlood(name,challengeName)
+        return res
+    else:
+        return "Hello world!"
+
 def run_server():
     if __name__ == '__main__':
         app.run(host=os.getenv('HOST'),port=os.getenv('PORT'))
 
 t1  = threading.Thread(target=run_server)
-# t1.start()
+t1.start()
 
 client = commands.Bot(command_prefix='.')
 
@@ -221,9 +232,11 @@ async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
         await ctx.send('Bot does not have permissions to perform the task. Please give permission')
 
+@async_to_sync
 async def firstBlood(userName, challengeName):
     channel = client.get_channel(int(os.getenv('FIRST_BLOOD_CHANNEL')))
     await channel.send(f'{userName} got first blood in challenge: {challengeName}')
+    return "Sent"
     
 
 
