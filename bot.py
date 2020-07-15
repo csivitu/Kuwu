@@ -18,7 +18,8 @@ tags = []
 
 global challenges
 challenges = {'pwn-intended-0x1':30001, 'pwn-intended-0x2':30007, 'pwn-intended-0x3':30013, 'Global Warming':30023, 'Cascade':30203,
-              'CCC':30215, 'File Library':30222, 'Mr Rami':30231, 'Oreo':30243, 'The Confused Deputy':30256, 'Warm Up':30272, 'Secure Portal':30281 }
+              'CCC':30215, 'File Library':30222, 'Mr Rami':30231, 'Oreo':30243, 'The Confused Deputy':30256, 'Warm Up':30272, 'Secure Portal':30281,
+              'Escape Plan':30419, 'Prison Break':30407, 'Blaise':30808, 'Vietnam':30814, 'AKA':30611, 'Where am I':30623 }
 
 global connectionData
 connectionData = {}
@@ -68,7 +69,7 @@ client = commands.Bot(command_prefix='.')
 async def on_ready():
     # monitorChallenges.start()
     # challengeStatus.start()
-    checkChallenges.start()
+    # checkChallenges.start()
     await client.change_presence(status =  discord.Status.online, activity=discord.Game('Type .list to list all commands'))
     print('Bot is ready')
 
