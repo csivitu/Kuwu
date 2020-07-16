@@ -2,3 +2,5 @@ discord
 python-dotenv
 Flask
 asgiref
+selenium
+webdriver-manager

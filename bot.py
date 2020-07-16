@@ -6,6 +6,10 @@ from dotenv import load_dotenv
 import threading, time
 from asgiref.sync import async_to_sync
 from flask import Flask, request
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
+import json
 load_dotenv()
 
 app = Flask(__name__)
@@ -20,6 +24,11 @@ global challenges
 challenges = {'pwn-intended-0x1':30001, 'pwn-intended-0x2':30007, 'pwn-intended-0x3':30013, 'Global Warming':30023, 'Cascade':30203,
               'CCC':30215, 'File Library':30222, 'Mr Rami':30231, 'Oreo':30243, 'The Confused Deputy':30256, 'Warm Up':30272, 'Secure Portal':30281,
               'Escape Plan':30419, 'Prison Break':30407, 'Blaise':30808, 'Vietnam':30814, 'AKA':30611, 'Where am I':30623 }
+
+global ch
+ch = {13: {'name': 'Esrever', 'solved': False}, 14: {'name': 'Rivest Shamir Adleman', 'solved': False}, 15: {'name': 'Archenemy', 'solved': False}, 16: {'name': 'pwn intended 0x2', 'solved': False}, 17: {'name': 'Blaise', 'solved': False}, 18: {'name': 'pwn intended 0x1', 'solved': False}, 19: {'name': 'pwn intended 0x3', 'solved': False}, 20: {'name': 'Prison Break', 'solved': False}, 21: {'name': 'CCC', 'solved': False}, 22: {'name': 'File Library', 'solved': False}, 24: {'name': 'The Confused Deputy', 'solved': False}, 25: {'name': 'Warm Up', 'solved': False}, 26: {'name': 'Gradient sky', 'solved': False}, 27: {'name': 'Mein Kampf', 'solved': False}, 28: {'name': 'The Climb', 'solved': False}, 29: {'name': 'Modern Clueless Child', 'solved': False}, 30: {'name': 'Machine Fix', 'solved': False}, 31: {'name': 'Prime Roll', 'solved': False}, 32: {'name': 'Cascade', 'solved': False}, 33: {'name': 'Oreo', 'solved': False}, 
+      34: {'name': 'Escape Plan', 'solved': False}, 35: {'name': 'Pirates of the Memorial', 'solved': False}, 36: {'name': 'Panda', 'solved': False}, 37: {'name': 'pydis2ctf', 'solved': False}, 38: {'name': 'Mr Rami', 'solved': False}, 39: {'name': 'Commitment', 'solved': False}, 40: {'name': 'AKA', 'solved': False}, 41: {'name': 'Stalin for time', 'solved': False}, 42: {'name': 'Where am I', 'solved': False}, 43: {'name': 'Vietnam', 'solved': False}, 45: {'name': 'BroBot', 'solved': False}, 46: {'name': 'Flying Places', 'solved': False}, 47: {'name': 'In Your Eyes', 'solved': False}, 48: {'name': 'Secure Portal', 'solved': False}, 49: {'name': 'Global Warming', 'solved': False}, 50: {'name': 'Bat Soup', 'solved': False}, 52: {'name': 'The Usual Suspects', 'solved': False}, 53: {'name': 'Body Count', 'solved': False},54: {'name': 'No DIStractions', 'solved': False}, 55: {'name': 'unseen', 'solved': False}, 56: {'name': 'Smash', 'solved': False}, 57: {'name': 'Friends', 'solved': False}}
+
 
 global connectionData
 connectionData = {}
@@ -46,22 +55,12 @@ def get_data():
         return "data recieved!"
     return "Hello Test!"
 
-@app.route('/firstBlood', methods=['POST','GET'])
-def get_first_blood():
-    if request.method == 'POST':
-        name = str(request.form['playerName'])
-        challengeName = str(request.form['challengeName'])
-        res = firstBlood(name,challengeName)
-        return res
-    else:
-        return "Hello world!"
-
 def run_server():
     if __name__ == '__main__':
         app.run(host=os.getenv('HOST'),port=os.getenv('PORT'))
 
-t1  = threading.Thread(target=run_server)
-t1.start()
+# t1  = threading.Thread(target=run_server)
+# t1.start()
 
 client = commands.Bot(command_prefix='.')
 
@@ -69,7 +68,8 @@ client = commands.Bot(command_prefix='.')
 async def on_ready():
     # monitorChallenges.start()
     # challengeStatus.start()
-    # checkChallenges.start()
+    checkChallenges.start()
+    firstBlood.start()
     await client.change_presence(status =  discord.Status.online, activity=discord.Game('Type .list to list all commands'))
     print('Bot is ready')
 
@@ -77,6 +77,8 @@ async def on_ready():
 for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):
         client.load_extension(f'cogs.{filename[:-3]}')
+
+
 
 
 @tasks.loop(seconds = 60)
@@ -110,6 +112,61 @@ async def challengeStatus():
     await statusChannel.send(w) #send challenge data here!
     print('Data sent!')
 
+@tasks.loop(seconds=300)
+async def firstBlood():
+    allSolved = True
+    keys = dict.keys(ch)
+    for i in keys:
+        if not(ch[i]['solved']):
+            allSolved = False
+
+    if(allSolved):
+        return
+    
+    channel = client.get_channel(int(os.getenv('FIRST_BLOOD_CHANNEL')))
+
+    options = Options()
+    options.add_argument('--headless')
+    options.add_argument('--disable-gpu')
+
+    usernameStr = os.getenv('USERNAME')
+    passwordStr = os.getenv('PASSWORD')
+
+    browser = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+
+    print('loading')
+    browser.get(('https://ctfi.csivit.com/login'))
+    print('loaded')
+
+    username = browser.find_element_by_id('name')
+    username.send_keys(usernameStr)
+    password = browser.find_element_by_id('password')
+    password.send_keys(passwordStr)
+
+    submitBtn = browser.find_element_by_id('_submit')
+    submitBtn.click()
+
+    for i in keys:
+        if(ch[i]['solved']):
+            continue
+
+        browser.get(f'https://ctfi.csivit.com/api/v1/challenges/{i}/solves')
+        html = browser.page_source
+        time.sleep(2)
+        html = html[html.index('{'):html.rindex('}')+1]
+        y = json.loads(html)
+        try: y['data']
+
+        except:
+            print('key error')
+            continue
+
+        if(y['data']==[]):
+            continue
+
+        ch[i]['solved'] = True
+        channel.send(f'`First blood for challenge: {ch[i]["name"]} goes to {y["data"][0]["name"]}`')
+
 
 @tasks.loop(seconds = 15)
 async def monitorChallenges():
@@ -139,7 +196,7 @@ async def checkChallenges():
     global connectionData
     connectionData={}
     server = socket.gethostbyname('ctf-chall-dev.csivit.com')
-    ch = client.get_channel(int(os.getenv('CHALLENGE_STATUS_CHANNEL')))
+    channel = client.get_channel(int(os.getenv('CHALLENGE_STATUS_CHANNEL')))
     embed = discord.Embed(title="Challenge Status")
     for i in challenges:
         ADDR = (server, int(challenges[i]))
@@ -158,7 +215,7 @@ async def checkChallenges():
             embed.add_field(name=i, value=data)
             connectionData[i]=data
 
-    await ch.send(embed=embed)
+    await channel.send(embed=embed)
     print('sent')
 
 @client.command(aliases=['Challenges', 'challenges', 'challenge'])
@@ -234,11 +291,7 @@ async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
         await ctx.send('Bot does not have permissions to perform the task. Please give permission')
 
-@async_to_sync
-async def firstBlood(userName, challengeName):
-    channel = client.get_channel(int(os.getenv('FIRST_BLOOD_CHANNEL')))
-    await channel.send(f'{userName} got first blood in challenge: {challengeName}')
-    return "Sent"
+
     
 
 
