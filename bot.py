@@ -177,6 +177,7 @@ async def firstBlood():
         # print(f'`First blood for challenge: {ch[i]["name"]} goes to {y["data"][0]["name"]}`')
         print("sending")
         await channel.send(f'```css\n🩸 First blood for .{ch[i]["name"]} goes to [{y["data"][0]["name"]}]```')
+    browser.close()
 
 
 @tasks.loop(seconds = 15)
