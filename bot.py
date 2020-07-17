@@ -64,6 +64,8 @@ def run_server():
 
 client = commands.Bot(command_prefix='.')
 
+client.remove_command('help')
+
 @client.event
 async def on_ready():
     # monitorChallenges.start()
