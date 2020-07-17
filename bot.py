@@ -71,7 +71,7 @@ async def on_ready():
     # monitorChallenges.start()
     # challengeStatus.start()
     # checkChallenges.start()
-    firstBlood.start()
+    # firstBlood.start()
     await client.change_presence(status =  discord.Status.online, activity=discord.Game('Type .list to list all commands'))
     print('Bot is ready')
 
@@ -205,9 +205,10 @@ async def monitorChallenges():
 
 @tasks.loop(seconds = 120)
 async def checkChallenges():
+    print("send")
     global connectionData
     connectionData={}
-    server = socket.gethostbyname('ctf-chall-dev.csivit.com')
+    server = socket.gethostbyname('chall.csivit.com')
     channel = client.get_channel(int(os.getenv('CHALLENGE_STATUS_CHANNEL')))
     embed = discord.Embed(title="Challenge Status")
     for i in challenges:
