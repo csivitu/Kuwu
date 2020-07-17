@@ -138,7 +138,7 @@ async def firstBlood():
     browser = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
     print('loading')
-    browser.get(('https://ctfi.csivit.com/login'))
+    browser.get(('https://ctf.csivit.com/login'))
     print('loaded')
 
     username = browser.find_element_by_id('name')
@@ -155,7 +155,7 @@ async def firstBlood():
         if(ch[i]['solved']):
             continue
 
-        browser.get(f'https://ctfi.csivit.com/api/v1/challenges/{i}/solves')
+        browser.get(f'https://ctf.csivit.com/api/v1/challenges/{i}/solves')
         html = browser.page_source
         time.sleep(2)
         html = html[html.index('{'):html.rindex('}')+1]
