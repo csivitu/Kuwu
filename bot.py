@@ -21,9 +21,10 @@ global tags
 tags = []
 
 global challenges
-challenges = {'pwn-intended-0x1':30001, 'pwn-intended-0x2':30007, 'pwn-intended-0x3':30013, 'Global Warming':30023, 'Cascade':30203,
-              'CCC':30215, 'File Library':30222, 'Mr Rami':30231, 'Oreo':30243, 'The Confused Deputy':30256, 'Warm Up':30272, 'Secure Portal':30281,
-              'Escape Plan':30419, 'Prison Break':30407, 'Blaise':30808, 'Vietnam':30814, 'AKA':30611, 'Where am I':30623 }
+challenges = {'pwn-intended-0x1':30001, 'pwn-intended-0x2':30007, 'pwn-intended-0x3':30013, 'Global Warming':30023, 'Cascade':30203, 'find32':30630,
+              'CCC':30215, 'File Library':30222, 'Mr Rami':30231, 'Oreo':30243, 'The Confused Deputy':30256,'The Usual Suspects':30279, 'Warm Up':30272, 'Secure Portal':30281,
+              'Escape Plan':30419, 'Prison Break':30407, 'Blaise':30808, 'Vietnam':30814, 'AKA':30611, 'Where am I':30623, 'Login Error':30431,
+              'Friends':30425, 'RicknMorty':30827, 'Secret Society': 30041, 'Smash':30046}
 
 global ch
 ch = {13: {'name': 'Esrever', 'solved': False}, 14: {'name': 'Rivest Shamir Adleman', 'solved': False}, 15: {'name': 'Archenemy', 'solved': False}, 16: {'name': 'pwn intended 0x2', 'solved': False}, 17: {'name': 'Blaise', 'solved': False}, 18: {'name': 'pwn intended 0x1', 'solved': False}, 19: {'name': 'pwn intended 0x3', 'solved': False}, 20: {'name': 'Prison Break', 'solved': False}, 21: {'name': 'CCC', 'solved': False}, 22: {'name': 'File Library', 'solved': False}, 24: {'name': 'The Confused Deputy', 'solved': False}, 25: {'name': 'Warm Up', 'solved': False}, 26: {'name': 'Gradient sky', 'solved': False}, 27: {'name': 'Mein Kampf', 'solved': False}, 28: {'name': 'The Climb', 'solved': False}, 29: {'name': 'Modern Clueless Child', 'solved': False}, 30: {'name': 'Machine Fix', 'solved': False}, 31: {'name': 'Prime Roll', 'solved': False}, 32: {'name': 'Cascade', 'solved': False}, 33: {'name': 'Oreo', 'solved': False}, 
@@ -112,8 +113,9 @@ async def challengeStatus():
     await statusChannel.send(w) #send challenge data here!
     print('Data sent!')
 
-@tasks.loop(seconds=300)
+@tasks.loop(seconds=180)
 async def firstBlood():
+    
     allSolved = True
     keys = dict.keys(ch)
     for i in keys:
