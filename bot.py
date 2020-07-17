@@ -70,7 +70,7 @@ client.remove_command('help')
 async def on_ready():
     # monitorChallenges.start()
     # challengeStatus.start()
-    checkChallenges.start()
+    # checkChallenges.start()
     firstBlood.start()
     await client.change_presence(status =  discord.Status.online, activity=discord.Game('Type .list to list all commands'))
     print('Bot is ready')
@@ -141,12 +141,12 @@ async def firstBlood():
     browser.get(('https://ctf.csivit.com/login'))
     print('loaded')
 
-    username = browser.find_element_by_id('name')
+    username = browser.find_element_by_id('name-input')
     username.send_keys(usernameStr)
-    password = browser.find_element_by_id('password')
+    password = browser.find_element_by_id('password-input')
     password.send_keys(passwordStr)
 
-    submitBtn = browser.find_element_by_id('_submit')
+    submitBtn = browser.find_element_by_class_name('btn-outlined')
     submitBtn.click()
 
 
@@ -175,6 +175,7 @@ async def firstBlood():
 
         ch[i]['solved'] = True
         # print(f'`First blood for challenge: {ch[i]["name"]} goes to {y["data"][0]["name"]}`')
+        print("sending")
         await channel.send(f'```css\n🩸 First blood for .{ch[i]["name"]} goes to [{y["data"][0]["name"]}]```')
 
 
