@@ -23,13 +23,12 @@ tags = []
 global challenges
 challenges = {'pwn-intended-0x1':30001, 'pwn-intended-0x2':30007, 'pwn-intended-0x3':30013, 'Global Warming':30023, 'Cascade':30203, 'find32':30630,
               'CCC':30215, 'File Library':30222, 'Mr Rami':30231, 'Oreo':30243, 'The Confused Deputy':30256,'The Usual Suspects':30279, 'Warm Up':30272, 'Secure Portal':30281,
-              'Escape Plan':30419, 'Prison Break':30407, 'Blaise':30808, 'Vietnam':30814, 'AKA':30611, 'Where am I':30623, 'Login Error':30431,
+              'Escape Plan':30419, 'Prison Break':30407, 'Blaise':30808, 'Vietnam':30814, 'AKA':30611, 'Where am I':30623, 'Login Error':30431, 'Body Count':30202,
               'Friends':30425, 'RicknMorty':30827, 'Secret Society': 30041, 'Smash':30046}
 
 global ch
-ch = {13: {'name': 'Esrever', 'solved': False}, 14: {'name': 'Rivest Shamir Adleman', 'solved': False}, 15: {'name': 'Archenemy', 'solved': False}, 16: {'name': 'pwn intended 0x2', 'solved': False}, 17: {'name': 'Blaise', 'solved': False}, 18: {'name': 'pwn intended 0x1', 'solved': False}, 19: {'name': 'pwn intended 0x3', 'solved': False}, 20: {'name': 'Prison Break', 'solved': False}, 21: {'name': 'CCC', 'solved': False}, 22: {'name': 'File Library', 'solved': False}, 24: {'name': 'The Confused Deputy', 'solved': False}, 25: {'name': 'Warm Up', 'solved': False}, 26: {'name': 'Gradient sky', 'solved': False}, 27: {'name': 'Mein Kampf', 'solved': False}, 28: {'name': 'The Climb', 'solved': False}, 29: {'name': 'Modern Clueless Child', 'solved': False}, 30: {'name': 'Machine Fix', 'solved': False}, 31: {'name': 'Prime Roll', 'solved': False}, 32: {'name': 'Cascade', 'solved': False}, 33: {'name': 'Oreo', 'solved': False}, 
-      34: {'name': 'Escape Plan', 'solved': False}, 35: {'name': 'Pirates of the Memorial', 'solved': False}, 36: {'name': 'Panda', 'solved': False}, 37: {'name': 'pydis2ctf', 'solved': False}, 38: {'name': 'Mr Rami', 'solved': False}, 39: {'name': 'Commitment', 'solved': False}, 40: {'name': 'AKA', 'solved': False}, 41: {'name': 'Stalin for time', 'solved': False}, 42: {'name': 'Where am I', 'solved': False}, 43: {'name': 'Vietnam', 'solved': False}, 45: {'name': 'BroBot', 'solved': False}, 46: {'name': 'Flying Places', 'solved': False}, 47: {'name': 'In Your Eyes', 'solved': False}, 48: {'name': 'Secure Portal', 'solved': False}, 49: {'name': 'Global Warming', 'solved': False}, 50: {'name': 'Bat Soup', 'solved': False}, 52: {'name': 'The Usual Suspects', 'solved': False}, 53: {'name': 'Body Count', 'solved': False},54: {'name': 'No DIStractions', 'solved': False}, 55: {'name': 'unseen', 'solved': False}, 56: {'name': 'Smash', 'solved': False}, 57: {'name': 'Friends', 'solved': False}}
-
+ch = {13: {'name': 'Esrever', 'solved': False}, 14: {'name': 'Rivest_Shamir_Adleman', 'solved': False}, 15: {'name': 'Archenemy', 'solved': False}, 16: {'name': 'pwn_intended_0x2', 'solved': False}, 17: {'name': 'Blaise', 'solved': False}, 18: {'name': 'pwn_intended_0x1', 'solved': False}, 19: {'name': 'pwn_intended_0x3', 'solved': False}, 20: {'name': 'Prison_Break', 'solved': False}, 21: {'name': 'CCC', 'solved': False}, 22: {'name': 'File_Library', 'solved': False}, 24: {'name': 'The_Confused_Deputy', 'solved': False}, 25: {'name': 'Warm_Up', 'solved': False}, 26: {'name': 'Gradient_sky', 'solved': False}, 27: {'name': 'Mein_Kampf', 'solved': False}, 28: {'name': 'The_Climb', 'solved': False}, 29: {'name': 'Modern_Clueless_Child', 'solved': False}, 30: {'name': 'Machine_Fix', 'solved': False}, 31: {'name': 'Prime_Roll', 'solved': False}, 32: {'name': 'Cascade', 'solved': False}, 33: {'name': 'Oreo', 'solved': False}, 34: {'name': 'Escape_Plan', 'solved': False}, 
+      35: {'name': 'Pirates_of_the_Memorial', 'solved': False}, 36: {'name': 'Panda', 'solved': False}, 37: {'name': 'pydis2ctf', 'solved': False}, 38: {'name': 'Mr_Rami', 'solved': False}, 39: {'name': 'Commitment', 'solved': False}, 40: {'name': 'AKA', 'solved': False}, 41: {'name': 'Stalin_for_time', 'solved': False}, 42: {'name': 'Where_am_I', 'solved': False}, 43: {'name': 'Vietnam', 'solved': False}, 45: {'name': 'BroBot', 'solved': False}, 46: {'name': 'Flying_Places', 'solved': False}, 47: {'name': 'In_Your_Eyes', 'solved': False}, 48: {'name': 'Secure_Portal', 'solved': False}, 49: {'name': 'Global_Warming', 'solved': False}, 50: {'name': 'Bat_Soup', 'solved': False}, 52: {'name': 'The_Usual_Suspects', 'solved': False}, 53: {'name': 'Body_Count', 'solved': False}, 54: {'name': 'No_DIStractions', 'solved': False}, 55: {'name': 'unseen', 'solved': False}, 56: {'name': 'Smash', 'solved': False}, 57: {'name': 'Friends', 'solved': False}}
 
 global connectionData
 connectionData = {}
@@ -115,7 +114,7 @@ async def challengeStatus():
 
 @tasks.loop(seconds=180)
 async def firstBlood():
-    
+
     allSolved = True
     keys = dict.keys(ch)
     for i in keys:
@@ -131,7 +130,7 @@ async def firstBlood():
     options.add_argument('--headless')
     options.add_argument('--disable-gpu')
 
-    usernameStr = os.getenv('USERNAME')
+    usernameStr = os.getenv('USER')
     passwordStr = os.getenv('PASSWORD')
 
     browser = webdriver.Chrome(ChromeDriverManager().install(), options=options)
@@ -148,7 +147,9 @@ async def firstBlood():
     submitBtn = browser.find_element_by_id('_submit')
     submitBtn.click()
 
+
     for i in keys:
+        
         if(ch[i]['solved']):
             continue
 
@@ -157,8 +158,8 @@ async def firstBlood():
         time.sleep(2)
         html = html[html.index('{'):html.rindex('}')+1]
         y = json.loads(html)
+            
         try: y['data']
-
         except:
             print('key error')
             continue
@@ -166,8 +167,13 @@ async def firstBlood():
         if(y['data']==[]):
             continue
 
+        if(y['data']==[]):
+            print(f'no data for {ch[i]}')
+            continue
+
         ch[i]['solved'] = True
-        channel.send(f'`First blood for challenge: {ch[i]["name"]} goes to {y["data"][0]["name"]}`')
+        # print(f'`First blood for challenge: {ch[i]["name"]} goes to {y["data"][0]["name"]}`')
+        await channel.send(f'```css\n🩸 First blood for .{ch[i]["name"]} goes to [{y["data"][0]["name"]}]```')
 
 
 @tasks.loop(seconds = 15)
