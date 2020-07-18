@@ -16,8 +16,16 @@ class EightBall(commands.Cog):
                     ' Better not tell you now.',' Cannot predict now.','Concentrate and ask again.',
                     'Don\'t count on it.',' My reply is no.',' My sources say no.',
                     'Outlook not so good.','Very doubtful.']
-    
-        await ctx.send(f'Question: {question}\nAnswer: {random.choice(responses)}')
+        
+        if '.flag' in question:
+            await ctx.channel.purge(limit=1)
+            return
+
+        if 'csictf{' in question:
+            await ctx.channel.purge(limit=1)
+            await ctx.send('Oh no no! Don\'t post flags here.')
+        else:
+            await ctx.send(f'Question: {question}\nAnswer: {random.choice(responses)}')
 
 def setup(client):
     client.add_cog(EightBall(client))
