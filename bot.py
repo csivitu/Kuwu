@@ -4,7 +4,6 @@ from discord.ext import commands, tasks
 import os, socket
 from dotenv import load_dotenv
 import threading, time
-from asgiref.sync import async_to_sync
 from flask import Flask, request
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
