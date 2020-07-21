@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 import os
+import re
 load_dotenv(dotenv_path='../')
 
 class autoresponse(commands.Cog):
@@ -21,8 +22,8 @@ class autoresponse(commands.Cog):
         else:
             return
             
-
-        if 'csictf{' in message.content:
+        z = re.match('\w.*_', message.content)
+        if 'csictf{' in message.content or z:
             await channel.purge(limit=1)
             await channel.send(f'<@!{message.author.id}> don\'t post flags here!')
 

@@ -26,8 +26,12 @@ challenges = {'pwn-intended-0x1':30001, 'pwn-intended-0x2':30007, 'pwn-intended-
               'Friends':30425, 'RicknMorty':30827, 'Secret Society': 30041, 'Smash':30046}
 
 global ch
-ch =  {13: {'name': 'Esrever', 'solved': False}, 14: {'name': 'Rivest_Shamir_Adleman', 'solved': False}, 15: {'name': 'Archenemy', 'solved': False}, 16: {'name': 'pwn_intended_0x2', 'solved': False}, 17: {'name': 'Blaise', 'solved': False}, 18: {'name': 'pwn_intended_0x1', 'solved': False}, 19: {'name': 'pwn_intended_0x3', 'solved': False}, 20: {'name': 'Prison_Break', 'solved': False}, 21: {'name': 'CCC', 'solved': False}, 22: {'name': 'File_Library', 'solved': False}, 24: {'name': 'The_Confused_Deputy', 'solved': False}, 25: {'name': 'Warm_Up', 'solved': False}, 26: {'name': 'Gradient_sky', 'solved': False}, 27: {'name': 'Mein_Kampf', 'solved': False}, 28: {'name': 'The_Climb', 'solved': False}, 29: {'name': 'Modern_Clueless_Child', 'solved': False}, 30: {'name': 'Machine_Fix', 'solved': False}, 31: {'name': 'Prime_Roll', 'solved': False}, 32: {'name': 'Cascade', 'solved': False}, 33: {'name': 'Oreo', 'solved': False}, 34: {'name': 'Escape_Plan', 'solved': False}, 35: {'name': 'Pirates_of_the_Memorial', 'solved': False}, 36: {'name': 'Panda', 'solved': False}, 37: {'name': 'pydis2ctf', 'solved': False}, 38: {'name': 'Mr_Rami', 'solved': False}, 
-       39: {'name': 'Commitment', 'solved': False}, 40: {'name': 'AKA', 'solved': False}, 41: {'name': 'Stalin_for_time', 'solved': False}, 42: {'name': 'Where_am_I', 'solved': False}, 43: {'name': 'Vietnam', 'solved': False}, 45: {'name': 'BroBot', 'solved': False}, 46: {'name': 'Flying_Places', 'solved': False}, 47: {'name': 'In_Your_Eyes', 'solved': False}, 48: {'name': 'Secure_Portal', 'solved': False}, 49: {'name': 'Global_Warming', 'solved': False}, 50: {'name': 'Bat_Soup', 'solved': False}, 52: {'name': 'The_Usual_Suspects', 'solved': False}, 53: {'name': 'Body_Count', 'solved': False}, 54: {'name': 'No_DIStractions', 'solved': False}, 55: {'name': 'unseen', 'solved': False}, 56: {'name': 'Smash', 'solved': False}, 57: {'name': 'Friends', 'solved': False}, 58: {'name': 'Lo_Scampo', 'solved': False}, 59: {'name': 'Login_Error', 'solved': False}, 60: {'name': 'little_RSA', 'solved': False}, 61: {'name': 'find32', 'solved': False}, 62: {'name': 'Secret_Society', 'solved': False}, 63: {'name': 'RicknMorty', 'solved': False}, 64: {'name': 'HTB_0x1', 'solved': False}}
+# ch =  {13: {'name': 'Esrever', 'solved': False}, 14: {'name': 'Rivest_Shamir_Adleman', 'solved': False}, 15: {'name': 'Archenemy', 'solved': False}, 16: {'name': 'pwn_intended_0x2', 'solved': False}, 17: {'name': 'Blaise', 'solved': False}, 18: {'name': 'pwn_intended_0x1', 'solved': False}, 19: {'name': 'pwn_intended_0x3', 'solved': False}, 20: {'name': 'Prison_Break', 'solved': False}, 21: {'name': 'CCC', 'solved': False}, 22: {'name': 'File_Library', 'solved': False}, 24: {'name': 'The_Confused_Deputy', 'solved': False}, 25: {'name': 'Warm_Up', 'solved': False}, 26: {'name': 'Gradient_sky', 'solved': False}, 27: {'name': 'Mein_Kampf', 'solved': False}, 28: {'name': 'The_Climb', 'solved': False}, 29: {'name': 'Modern_Clueless_Child', 'solved': False}, 30: {'name': 'Machine_Fix', 'solved': False}, 31: {'name': 'Prime_Roll', 'solved': False}, 32: {'name': 'Cascade', 'solved': False}, 33: {'name': 'Oreo', 'solved': False}, 34: {'name': 'Escape_Plan', 'solved': False}, 35: {'name': 'Pirates_of_the_Memorial', 'solved': False}, 36: {'name': 'Panda', 'solved': False}, 37: {'name': 'pydis2ctf', 'solved': False}, 38: {'name': 'Mr_Rami', 'solved': False}, 
+#        39: {'name': 'Commitment', 'solved': False}, 40: {'name': 'AKA', 'solved': False}, 41: {'name': 'Stalin_for_time', 'solved': False}, 42: {'name': 'Where_am_I', 'solved': False}, 43: {'name': 'Vietnam', 'solved': False}, 45: {'name': 'BroBot', 'solved': False}, 46: {'name': 'Flying_Places', 'solved': False}, 47: {'name': 'In_Your_Eyes', 'solved': False}, 48: {'name': 'Secure_Portal', 'solved': False}, 49: {'name': 'Global_Warming', 'solved': False}, 50: {'name': 'Bat_Soup', 'solved': False}, 52: {'name': 'The_Usual_Suspects', 'solved': False}, 53: {'name': 'Body_Count', 'solved': False}, 54: {'name': 'No_DIStractions', 'solved': False}, 55: {'name': 'unseen', 'solved': False}, 56: {'name': 'Smash', 'solved': False}, 57: {'name': 'Friends', 'solved': False}, 58: {'name': 'Lo_Scampo', 'solved': False}, 59: {'name': 'Login_Error', 'solved': False}, 60: {'name': 'little_RSA', 'solved': False}, 61: {'name': 'find32', 'solved': False}, 62: {'name': 'Secret_Society', 'solved': False}, 63: {'name': 'RicknMorty', 'solved': False}, 64: {'name': 'HTB_0x1', 'solved': False}}
+
+ch =  {69: {'name': 'HTB_0x3', 'solved': False}, 70: {'name': 'HTB_0x6', 'solved': False}, 73: {'name': 'HTB_0x4', 'solved': False}}
+
+
 
 global connectionData
 connectionData = {}
@@ -134,7 +138,7 @@ async def firstBlood():
     usernameStr = os.getenv('USER')
     passwordStr = os.getenv('PASSWORD')
 
-    browser = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+    browser = webdriver.Chrome(ChromeDriverManager().install(), options=options )
 
     print('loading')
     browser.get(('https://ctf.csivit.com/login'))
@@ -177,6 +181,7 @@ async def firstBlood():
         print("sending")
         await channel.send(f'```css\n🩸 First blood for .{ch[i]["name"]} goes to [{y["data"][0]["name"]}]```')
     browser.close()
+    print('Completed!')
 
 
 @tasks.loop(seconds = 15)
