@@ -11,7 +11,7 @@
   <h3 align="center">Kuwu</h3>
 
   <p align="center">
-    A friedly dicord bot used as a utility tool for CTFs
+    A friendly dicord bot used as a utility tool for CTFs
     <br />
     <br />
     <a href="https://github.com/csivitu/Kuwu">View Demo</a>
